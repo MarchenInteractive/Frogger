@@ -8,7 +8,12 @@ public class MovingElement : MonoBehaviour
   public string direction;
   public float speed;
 
-  public bool moveOther = false;
+  public bool movePlayer = false;
+
+  public float maxX;
+  public float minX;
+  public float maxZ;
+  public float minZ;
 
   private IEnumerator movementCorutine;
 
@@ -16,7 +21,7 @@ public class MovingElement : MonoBehaviour
   // Use this for initialization
   void Start()
   {
-    if (!moveOther)
+    if (!movePlayer)
     {
       StartCoroutine(Movement(direction, this.gameObject));
     }
@@ -30,7 +35,7 @@ public class MovingElement : MonoBehaviour
 
   void OnTriggerEnter(Collider other)
   {
-    if (moveOther)
+    if (movePlayer & other.gameObject.tag == "Player")
     {
       movementCorutine = Movement(direction, other.gameObject);
       StartCoroutine(movementCorutine);
@@ -39,7 +44,7 @@ public class MovingElement : MonoBehaviour
 
   void OnTriggerExit(Collider other)
   {
-    if (moveOther)
+    if (movePlayer)
     {
       StopCoroutine(movementCorutine);
       movementCorutine = null;
@@ -49,21 +54,40 @@ public class MovingElement : MonoBehaviour
   // Método corutina
   public virtual IEnumerator Movement(string direction, GameObject movingObject)
   {
+    Vector3 position;
     while (true)
     {
+      position = movingObject.transform.position;
+      Debug.Log(position);
       switch (direction)
       {
         case "r":
           movingObject.transform.Translate(speed * Time.deltaTime, 0, 0);
+          if (position.x >= maxX)
+          {
+            movingObject.transform.position = new Vector3(minX, position.y, position.z);
+          }
           break;
         case "l":
           movingObject.transform.Translate(-speed * Time.deltaTime, 0, 0);
+          if (position.x <= minX)
+          {
+            movingObject.transform.position = new Vector3(maxX, position.y, position.z);
+          }
           break;
         case "f":
           movingObject.transform.Translate(0, 0, speed * Time.deltaTime);
+          if (position.z >= maxZ)
+          {
+            movingObject.transform.position = new Vector3(position.x, position.y, minZ);
+          }
           break;
         case "b":
           movingObject.transform.Translate(0, 0, -speed * Time.deltaTime);
+          if (position.z <= minZ)
+          {
+            movingObject.transform.position = new Vector3(position.x, position.y, maxZ);
+          }
           break;
       }
       yield return new WaitForSeconds(0.1f);

@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
 
   //Private attributes
   private Vector3 _direction;
-  private bool _isReadyToMove;
   private RaycastHit _hit;
   private Level _level;
   private SmoothFollow _smoothFollow;
@@ -19,7 +18,6 @@ public class Player : MonoBehaviour
   // Use this for initialization
   void Start()
   {
-    _isReadyToMove = true;
   }
 
   // Update is called once per frame
@@ -53,10 +51,8 @@ public class Player : MonoBehaviour
   // Método corutina
   public virtual IEnumerator TimedMove(Vector3 direction)
   {
-    _isReadyToMove = false;
     this.transform.Translate(direction);
     yield return new WaitForSeconds(0.1f);
-    _isReadyToMove = true;
   }
 
   void OnTriggerEnter(Collider other)
