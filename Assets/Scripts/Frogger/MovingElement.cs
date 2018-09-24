@@ -6,7 +6,7 @@ public class MovingElement : MonoBehaviour
 {
 
   public string direction;
-  public float speed;
+  public float steps = 0.5f;
 
   public bool movePlayer = false;
 
@@ -58,32 +58,31 @@ public class MovingElement : MonoBehaviour
     while (true)
     {
       position = movingObject.transform.position;
-      Debug.Log(position);
       switch (direction)
       {
         case "r":
-          movingObject.transform.Translate(speed * Time.deltaTime, 0, 0);
+          movingObject.transform.position = new Vector3(position.x+steps, position.y, position.z);
           if (position.x >= maxX)
           {
             movingObject.transform.position = new Vector3(minX, position.y, position.z);
           }
           break;
         case "l":
-          movingObject.transform.Translate(-speed * Time.deltaTime, 0, 0);
+          movingObject.transform.position = new Vector3(position.x-steps, position.y, position.z);
           if (position.x <= minX)
           {
             movingObject.transform.position = new Vector3(maxX, position.y, position.z);
           }
           break;
         case "f":
-          movingObject.transform.Translate(0, 0, speed * Time.deltaTime);
+          movingObject.transform.position = new Vector3(position.x, position.y, position.z+steps);
           if (position.z >= maxZ)
           {
             movingObject.transform.position = new Vector3(position.x, position.y, minZ);
           }
           break;
         case "b":
-          movingObject.transform.Translate(0, 0, -speed * Time.deltaTime);
+          movingObject.transform.position = new Vector3(position.x, position.y, position.z-steps);
           if (position.z <= minZ)
           {
             movingObject.transform.position = new Vector3(position.x, position.y, maxZ);
