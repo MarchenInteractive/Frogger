@@ -3,57 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameControl : MonoBehaviour {
+public class GameControl : MonoBehaviour
+{
 
-  public static GameControl instance;
+  public static GameControl instanciate;
 
-	public int characterMoves{
-    get 
-    { 
-      return _characterMoves;  
-    }
-    set 
-    { 
-      _characterMoves = value;  
-    }
-  }
-
-	public float activePlayTime 
+  void Awake()
   {
-    get 
-    { 
-      return _activePlayTime; 
+    if (GameControl.instanciate == null)
+    {
+      instanciate = this;
+      DontDestroyOnLoad(this.gameObject);
     }
-    set 
-    { 
-      _activePlayTime = value; 
+    else
+    {
+      Destroy(this.gameObject);
     }
   }
 
-	public Level levelmanager 
+  public void LoadScene(string value)
   {
-    get 
-    {
-      return _level;
-    }
-    set 
-    {
-      _level = value;
-    }
+    SceneManager.LoadScene(value);
   }
 
-	private int _characterMoves;
-  private float _activePlayTime;
-  // private List<Target> targets;
-  private Level _level;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

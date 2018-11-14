@@ -12,8 +12,9 @@ public class MovingElement : MonoBehaviour
 
   public float maxX;
   public float minX;
-  public float maxZ;
-  public float minZ;
+
+  public string typeOfObstacle;
+  public float speedChange;
 
   private IEnumerator movementCorutine;
 
@@ -25,12 +26,10 @@ public class MovingElement : MonoBehaviour
     {
       StartCoroutine(Movement(direction, this.gameObject));
     }
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
+    if (typeOfObstacle != "")
+    {
+      StartCoroutine(Changer());
+    }
   }
 
   void OnTriggerEnter(Collider other)
@@ -61,35 +60,46 @@ public class MovingElement : MonoBehaviour
       switch (direction)
       {
         case "r":
-          movingObject.transform.position = new Vector3(position.x+steps, position.y, position.z);
+          movingObject.transform.position = new Vector3(position.x + steps, position.y, position.z);
           if (position.x >= maxX)
           {
             movingObject.transform.position = new Vector3(minX, position.y, position.z);
           }
           break;
         case "l":
-          movingObject.transform.position = new Vector3(position.x-steps, position.y, position.z);
+          movingObject.transform.position = new Vector3(position.x - steps, position.y, position.z);
           if (position.x <= minX)
           {
             movingObject.transform.position = new Vector3(maxX, position.y, position.z);
-          }
-          break;
-        case "f":
-          movingObject.transform.position = new Vector3(position.x, position.y, position.z+steps);
-          if (position.z >= maxZ)
-          {
-            movingObject.transform.position = new Vector3(position.x, position.y, minZ);
-          }
-          break;
-        case "b":
-          movingObject.transform.position = new Vector3(position.x, position.y, position.z-steps);
-          if (position.z <= minZ)
-          {
-            movingObject.transform.position = new Vector3(position.x, position.y, maxZ);
           }
           break;
       }
       yield return new WaitForSeconds(0.1f);
     }
   }
+
+  IEnumerator Changer()
+  {
+    do
+    {
+      switch (typeOfObstacle)
+      {
+        case "turtles":
+          if (this.gameObject.tag.Equals("Safe"))
+          {
+            yield return new WaitForSeconds(speedChange);
+            this.gameObject.tag = ("Harmful");
+          }
+          else if (this.gameObject.tag.Equals("Harmful"))
+          {
+            yield return new WaitForSeconds(speedChange / 2);
+            this.gameObject.tag = ("Safe");
+          }
+          break;
+        default:
+          break;
+      }
+    } while (true);
+  }
+
 }

@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
   private RaycastHit _hit;
   private Level _level;
   private SmoothFollow _smoothFollow;
+  private bool _isSafe = false;
 
   // Use this for initialization
   void Start()
@@ -57,9 +58,32 @@ public class Player : MonoBehaviour
 
   void OnTriggerEnter(Collider other)
   {
+    if (other.gameObject.tag.Equals("Safe"))
+    {
+      _isSafe = true;
+    }
     if (other.gameObject.tag.Equals("Harmful"))
     {
-      this.gameObject.transform.position = new Vector3(0, 0, 0);
+      StartCoroutine(Damage(other));
+    }
+  }
+
+  void OnTriggerExit(Collider other)
+  {
+    if (other.gameObject.tag.Equals("Safe"))
+    {
+      Debug.Log("Exit");
+      _isSafe = false;
+    }
+  }
+
+  IEnumerator Damage(Collider other)
+  {
+    yield return new WaitForSeconds(0.1f);
+    if (!_isSafe)
+    {
+      Debug.Log("Harm");
+      this.gameObject.transform.position = new Vector3(0.5f, 0, 1);
       lifes -= 1;
     }
   }

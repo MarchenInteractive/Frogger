@@ -18,8 +18,10 @@ public class Border : MonoBehaviour
 
   void OnTriggerEnter(Collider other)
   {
-    Vector3 position = other.gameObject.transform.position;
-
-    other.gameObject.transform.position = new Vector3(position.x * -1, position.y, position.z);
+    if (other.gameObject.tag == "Player")
+    {
+      Vector3 position = other.gameObject.transform.position;
+      other.gameObject.transform.position = new Vector3(position.x * -1, position.y, position.z);
+    }
   }
 }
