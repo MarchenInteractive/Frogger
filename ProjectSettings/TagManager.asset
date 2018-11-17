@@ -9,6 +9,7 @@ TagManager:
   - Unsafe
   - Flow
   - Drown
+  - Points
   layers:
   - Default
   - TransparentFX

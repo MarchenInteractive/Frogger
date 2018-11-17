@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class GameControl : MonoBehaviour
 {
 
-  public static GameControl instanciate;
+  public static GameControl instance;
+  public int actualLevel = 0;
 
   void Awake()
   {
-    if (GameControl.instanciate == null)
+    if (GameControl.instance == null)
     {
-      instanciate = this;
+      instance = this;
       DontDestroyOnLoad(this.gameObject);
     }
     else
@@ -24,6 +25,17 @@ public class GameControl : MonoBehaviour
   public void LoadScene(string value)
   {
     SceneManager.LoadScene(value);
+  }
+
+  public void LoadNextscene()
+  {
+    Debug.Log(actualLevel);
+    SceneManager.LoadScene("Story");
+  }
+
+  public void ReloadScene()
+  {
+    LoadScene(SceneManager.GetActiveScene().name);
   }
 
 }

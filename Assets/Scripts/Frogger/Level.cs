@@ -5,8 +5,13 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
 
+  public static Level instanciate;
+
   public Target[] targets;
-  public string nextLevel;
+  public Player player;
+  public int nextLevel;
+  public GameObject winPanel;
+  public GameObject losePanel;
 
   // Use this for initialization
   void Start()
@@ -19,7 +24,11 @@ public class Level : MonoBehaviour
   {
     if (GameDone())
     {
-      Debug.Log("Win");
+      winPanel.SetActive(true);
+    }
+    if (GameLose())
+    {
+      losePanel.SetActive(true);
     }
   }
 
@@ -32,6 +41,18 @@ public class Level : MonoBehaviour
         return false;
       };
     }
+    GameControl.instance.actualLevel = nextLevel;
+    player.isActive = false;
     return true;
+  }
+
+  public bool GameLose()
+  {
+    if (player.lifes == 0)
+    {
+      player.isActive = false;
+      return true;
+    }
+    return false;
   }
 }
