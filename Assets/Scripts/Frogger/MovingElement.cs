@@ -39,6 +39,13 @@ public class MovingElement : MonoBehaviour
       movementCorutine = Movement(direction, other.gameObject);
       StartCoroutine(movementCorutine);
     }
+    if (typeOfObstacle == "log" || (typeOfObstacle == "turtles" && gameObject.tag.Equals("Safe")))
+    {
+      if (other.gameObject.tag.Equals("Harmful"))
+      {
+        other.gameObject.tag = "Safe";
+      }
+    }
   }
 
   void OnTriggerExit(Collider other)
@@ -47,6 +54,13 @@ public class MovingElement : MonoBehaviour
     {
       StopCoroutine(movementCorutine);
       movementCorutine = null;
+    }
+    if (typeOfObstacle == "log" || typeOfObstacle == "turtles")
+    {
+      if (other.gameObject.tag.Equals("Safe"))
+      {
+        other.gameObject.tag = "Harmful";
+      }
     }
   }
 
@@ -97,6 +111,7 @@ public class MovingElement : MonoBehaviour
           }
           break;
         default:
+          yield return new WaitForSeconds(0);
           break;
       }
     } while (true);

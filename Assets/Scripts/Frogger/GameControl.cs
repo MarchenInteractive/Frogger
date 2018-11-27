@@ -29,13 +29,21 @@ public class GameControl : MonoBehaviour
 
   public void LoadNextscene()
   {
-    Debug.Log(actualLevel);
     SceneManager.LoadScene("Story");
   }
 
   public void ReloadScene()
   {
     LoadScene(SceneManager.GetActiveScene().name);
+  }
+
+  public void ReactivatePoints()
+  {
+    GameObject[] points = GameObject.FindGameObjectsWithTag("Points");
+    foreach (GameObject point in points)
+    {
+      point.SetActive(true);
+    }
   }
 
 }

@@ -12,6 +12,7 @@ public class Level : MonoBehaviour
   public int nextLevel;
   public GameObject winPanel;
   public GameObject losePanel;
+  public GameObject[] points;
 
   // Use this for initialization
   void Start()
@@ -54,5 +55,13 @@ public class Level : MonoBehaviour
       return true;
     }
     return false;
+  }
+
+  public void ReactivatePoints()
+  {
+    foreach (GameObject point in points)
+    {
+      point.tag = "Points";
+    }
   }
 }

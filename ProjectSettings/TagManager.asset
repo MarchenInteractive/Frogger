@@ -10,6 +10,7 @@ TagManager:
   - Flow
   - Drown
   - Points
+  - UsedPoints
   layers:
   - Default
   - TransparentFX

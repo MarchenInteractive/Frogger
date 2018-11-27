@@ -8,20 +8,21 @@ public class Player : MonoBehaviour
 
   // Public attributes
   public float stepDistance = 1f;
-  public float lifes = 5f;
+  public int lifes = 5;
   public int points = 0;
+  public int tempPoints = 0;
   public Text label_lifes;
   public Text label_time;
-
+  public Text label_points;
   //Private attributes
   private Vector3 _direction;
   private RaycastHit _hit;
   private Level _level;
-  private SmoothFollow _smoothFollow;
   private bool _isActive = true;
-  private bool _isSafe = false;
+  public bool receiveDamage = true;
   public int time = 30;
   private int _initialTime;
+  private List<string> collisions = new List<string>();
 
   public bool isActive
   {
@@ -42,7 +43,6 @@ public class Player : MonoBehaviour
   {
     if (_isActive)
     {
-      label_lifes.text = lifes.ToString();
       //Detect keyboard events
       if (Input.GetKeyDown(KeyCode.RightArrow))
       {
@@ -78,37 +78,57 @@ public class Player : MonoBehaviour
 
   void OnTriggerEnter(Collider other)
   {
-    if (other.gameObject.tag.Equals("Safe"))
+    collisions.Add(other.gameObject.tag);
+    if (collisions.Contains("Target"))
     {
-      _isSafe = true;
+      tempPoints = 0;
+      ReactivatePoints();
+      collisions = new List<string>();
     }
-    if (other.gameObject.tag.Equals("Harmful"))
+    else if (collisions.Contains("Harmful"))
     {
-      StartCoroutine(Damage(other));
+      if (receiveDamage)
+      {
+        receiveDamage = false;
+        StartCoroutine(Damage());
+      }
     }
     if (other.gameObject.tag.Equals("Points"))
     {
-      points += 10 * time;
-      Destroy(other.gameObject);
+      points += (lifes * 2) * time;
+      tempPoints = points;
+      label_points.text = points.ToString();
+      other.gameObject.tag = "UsedPoints";
     }
   }
 
   void OnTriggerExit(Collider other)
   {
-    if (other.gameObject.tag.Equals("Safe"))
+    if (!other.gameObject.tag.Equals("Harmful"))
     {
-      _isSafe = false;
+      receiveDamage = true;
     }
   }
 
-  IEnumerator Damage(Collider other)
+  IEnumerator Damage()
   {
+    ReactivatePoints();
     yield return new WaitForSeconds(0.1f);
-    if (!_isSafe)
-    {
-      this.gameObject.transform.position = new Vector3(0.5f, 0, 1);
-      lifes -= 1;
-    }
+    receiveDamage = false;
+    this.gameObject.transform.position = new Vector3(0.5f, 0, 1);
+    lifes -= 1;
+    label_lifes.text = lifes.ToString();
+    points = points - tempPoints;
+    tempPoints = 0;
+    label_points.text = points.ToString();
+    collisions = new List<string>();
+  }
+
+  public void ReactivatePoints()
+  {
+    Debug.Log("Aaaaaaa");
+    GameObject level = GameObject.Find("Level");
+    level.GetComponent<Level>().ReactivatePoints();
   }
 
   IEnumerator Timer()
