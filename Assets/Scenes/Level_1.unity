@@ -634,9 +634,15 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1280228394009482, guid: 2168f2e1bdb17c54f8eb46aa96d7cca6, type: 2}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 114137520381486348, guid: 2168f2e1bdb17c54f8eb46aa96d7cca6,
+        type: 2}
+      propertyPath: m_Text
+      value: "Men\xFA"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114328939045583766, guid: 2168f2e1bdb17c54f8eb46aa96d7cca6,
+        type: 2}
+      propertyPath: m_Text
+      value: "Men\xFA"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2168f2e1bdb17c54f8eb46aa96d7cca6, type: 2}
