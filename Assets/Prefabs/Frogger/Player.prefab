@@ -213,7 +213,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.84216094, y: 1, z: 1}
+  m_Size: {x: 0.6, y: 1, z: 0.69}
   m_Center: {x: 0.000043724267, y: 0, z: 0}
 --- !u!114 &114084503347331872
 MonoBehaviour:
@@ -228,6 +228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepDistance: 1
   lifes: 5
+  points: 0
+  tempPoints: 0
   label_lifes: {fileID: 0}
   label_time: {fileID: 0}
+  label_points: {fileID: 0}
+  receiveDamage: 1
   time: 30

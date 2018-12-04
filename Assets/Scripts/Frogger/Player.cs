@@ -44,19 +44,19 @@ public class Player : MonoBehaviour
     if (_isActive)
     {
       //Detect keyboard events
-      if (Input.GetKeyDown(KeyCode.RightArrow))
+      if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
       {
         MoveChar(Vector3.right);
       }
-      if (Input.GetKeyDown(KeyCode.LeftArrow))
+      if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
       {
         MoveChar(Vector3.left);
       }
-      if (Input.GetKeyDown(KeyCode.DownArrow))
+      if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && this.gameObject.transform.position.z > 1)
       {
         MoveChar(Vector3.back);
       }
-      if (Input.GetKeyDown(KeyCode.UpArrow))
+      if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
       {
         MoveChar(Vector3.forward);
       }
@@ -126,7 +126,6 @@ public class Player : MonoBehaviour
 
   public void ReactivatePoints()
   {
-    Debug.Log("Aaaaaaa");
     GameObject level = GameObject.Find("Level");
     level.GetComponent<Level>().ReactivatePoints();
   }

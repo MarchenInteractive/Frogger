@@ -21,7 +21,11 @@ public class Border : MonoBehaviour
     if (other.gameObject.tag == "Player")
     {
       Vector3 position = other.gameObject.transform.position;
-      other.gameObject.transform.position = new Vector3(position.x * -1, position.y, position.z);
+      int direction = 1;
+      if(position.x>0){
+        direction = -1;
+      }
+      other.gameObject.transform.position = new Vector3((position.x + direction) * -1, position.y, position.z);
     }
   }
 }
